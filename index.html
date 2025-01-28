@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitGenius Pro - Advanced Fitness Tracker</title>
+    <style>
+      :root {
+        --primary-color: #FF6B6B;
+        --secondary-color: #4ECDC4;
+        --dark-bg: #2D2D3A;
+        --accent: #FFE66D;
+        --gradient: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial Rounded MT Bold', sans-serif;
+      }
+
+      body {
+        background: var(--dark-bg);
+        color: white;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        padding: 3rem 0;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+      }
+
+      .tab-navigation {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .tab-button {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1 1 calc(25% - 2rem);
+        min-width: 150px;
+      }
+
+      .tab-button.active {
+        background: var(--primary-color);
+        box-shadow: 0 0 15px var(--primary-color);
+      }
+
+      .goal-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .goal-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .goal-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent);
+      }
+
+      .workout-split {
+        display: none;
+        margin-top: 3rem;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 20px;
+      }
+
+      .split-day {
+        background: var(--dark-bg);
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: 15px;
+        border-left: 4px solid var(--primary-color);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .split-day:hover {
+        transform: translateY(-10px);
+      }
+
+      .progress-ring {
+        width: 100px;
+        height: 100px;
+        margin: 1rem auto;
+      }
+
+      button {
+        background: var(--secondary-color);
+        color: var(--dark-bg);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px var(--secondary-color);
+      }
+
+      .active-split {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05);
+      }
+
+      .photo-date {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 0.5rem;
+        text-align: center;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+
+      .social-share {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .achievement-badge {
+        background: var(--accent);
+        color: var(--dark-bg);
+        padding: 1rem;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: unlock 1s ease;
+      }
+
+      @keyframes unlock {
+        0% { transform: scale(0); opacity: 0; }
+        80% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      .progress-section {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 2rem 0;
+      }
+
+      .muscle-groups {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .muscle-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        border: 2px solid transparent;
+        flex: 1 1 calc(33% - 2rem);
+        min-width: 150px;
+      }
+
+      .muscle-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--accent);
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 10px;
+        background: #333;
+        border-radius: 5px;
+        margin-top: 1rem;
+        position: relative;
+      }
+
+      .progress-bar::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 50%; /* Example progress */
+        background: var(--primary-color);
+        border-radius: 5px;
+      }
+
+      .workout-video {
+        margin-top: 2rem;
+        width: 100%;
+        height: 300px;
+        border-radius: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .tab-button {
+          flex: 1 1 calc(50% - 2rem);
+        }
+
+        .muscle-card {
+          flex: 1 1 calc(50% - 2rem);
+        }
+
+        .workout-video {
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .tab-button {
+          flex: 1 1 100%;
+        }
+
+        .muscle-card {
+          flex: 1 1 100%;
+        }
+
+        .workout-video {
+          height: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
